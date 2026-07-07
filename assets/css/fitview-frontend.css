@@ -24,18 +24,18 @@
     position: absolute;
     bottom: 12px;
     right: 12px;
-    background: linear-gradient(135deg, #7A4DFF, #4C7CFF);
-    color: #fff;
+    background: #FFFFFF;
+    color: #1E1B4B;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(122, 77, 255, 0.45);
+    box-shadow: 0 4px 16px rgba(30, 27, 75, 0.18);
     z-index: 10;
     display: flex;
     align-items: center;
-    gap: 7px;
-    padding: 8px 14px 8px 10px;
-    border-radius: 24px;
-    font-size: 12px;
+    gap: 8px;
+    padding: 8px 16px 8px 10px;
+    border-radius: 26px;
+    font-size: 14px;
     font-weight: 600;
     white-space: nowrap;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -43,7 +43,7 @@
 
 .fv-fab:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(122, 77, 255, 0.6);
+    box-shadow: 0 6px 22px rgba(30, 27, 75, 0.28);
 }
 
 .fv-fab:focus-visible {
@@ -51,7 +51,8 @@
     outline-offset: 3px;
 }
 
-.fv-fab svg {
+.fv-fab svg,
+.fv-fab img {
     pointer-events: none;
     flex-shrink: 0;
 }
