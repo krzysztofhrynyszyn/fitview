@@ -93,7 +93,7 @@ const FitView = (() => {
 
         const iconUrl = (_data && _data.pluginUrl ? _data.pluginUrl : '') + 'assets/img/fito-icon-button.svg';
         fab.innerHTML = `
-            <img src="${iconUrl}" alt="" width="20" height="20" style="display:block;flex-shrink:0" aria-hidden="true">
+            <img src="${iconUrl}" alt="" width="26" height="26" style="display:block;flex-shrink:0" aria-hidden="true">
             Przymierz
         `;
 
