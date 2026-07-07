@@ -91,11 +91,9 @@ const FitView = (() => {
             fab.classList.add('fv-fab-left');
         }
 
+        const iconUrl = (_data && _data.pluginUrl ? _data.pluginUrl : '') + 'assets/img/fito-icon-button.svg';
         fab.innerHTML = `
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <path d="M20 6.5H4C3.17 6.5 2.5 7.17 2.5 8v1c0 .83.67 1.5 1.5 1.5h.5v7a1 1 0 001 1h13a1 1 0 001-1v-7h.5c.83 0 1.5-.67 1.5-1.5V8c0-.83-.67-1.5-1.5-1.5z" fill="currentColor"/>
-                <path d="M19 3.5l1.5 1.5M5 3.5L3.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
+            <img src="${iconUrl}" alt="" width="20" height="20" style="display:block;flex-shrink:0" aria-hidden="true">
             Przymierz
         `;
 
