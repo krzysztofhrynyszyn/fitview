@@ -69,25 +69,23 @@ const FitView = (() => {
      * Inject the floating eye button onto the WooCommerce product gallery.
      */
     function _injectFab() {
-        const gallery = document.querySelector('.woocommerce-product-gallery');
+        // Znajdź kontener galerii — obsłuż klasyczny WooCommerce i WooCommerce Blocks
+        const gallery =
+            document.querySelector('.woocommerce-product-gallery') ||
+            document.querySelector('.wc-block-components-product-image-gallery') ||
+            document.querySelector('.wp-block-woocommerce-product-image-gallery') ||
+            document.querySelector('[data-block-name="woocommerce/product-image-gallery"]');
+
         if (!gallery) return;
 
-        // Preferuj kontener głównego zdjęcia (bez miniaturek), z fallbackiem na całą galerię
-        const target = gallery.querySelector('.flex-viewport')
-            || gallery.querySelector('.woocommerce-product-gallery__wrapper')
-            || gallery.querySelector('figure')
-            || gallery;
-
-        if (getComputedStyle(target).position === 'static') {
-            target.style.position = 'relative';
-        }
+        // Zapobiegaj podwójnemu wstrzyknięciu
+        if (gallery.querySelector('.fv-fab')) return;
 
         const fab = document.createElement('button');
         fab.className = 'fv-fab';
         fab.type      = 'button';
         fab.setAttribute('aria-label', 'Otwórz Fito — wirtualną przymierzalnię');
 
-        // Ustaw pozycję na podstawie ustawień sklepu
         const position = (_data && _data.fabPosition) || 'right';
         if (position === 'left') {
             fab.classList.add('fv-fab-left');
@@ -101,8 +99,63 @@ const FitView = (() => {
             Przymierz
         `;
 
-        target.appendChild(fab);
         fab.addEventListener('click', (e) => { e.stopPropagation(); openModal(); });
+
+        // Znajdź największe wyrenderowane zdjęcie w galerii i przypnij do jego rodzica
+        function findMainImageContainer() {
+            const imgs = Array.from(gallery.querySelectorAll('img'));
+            if (!imgs.length) return null;
+
+            let best = null;
+            let bestArea = 0;
+            imgs.forEach((img) => {
+                const rect = img.getBoundingClientRect();
+                const area = rect.width * rect.height;
+                if (area > bestArea) {
+                    bestArea = area;
+                    best = img;
+                }
+            });
+
+            // Zdjęcie jeszcze się nie wyrenderowało
+            if (!best || bestArea === 0) return null;
+
+            return best.parentElement || gallery;
+        }
+
+        function placeFab() {
+            const container = findMainImageContainer();
+            if (!container) return false;
+
+            if (getComputedStyle(container).position === 'static') {
+                container.style.position = 'relative';
+            }
+            container.appendChild(fab);
+            return true;
+        }
+
+        // Spróbuj od razu; jeśli zdjęcia jeszcze się nie wyrenderowały, obserwuj zmiany
+        if (!placeFab()) {
+            let attempts = 0;
+            const retry = setInterval(() => {
+                attempts++;
+                if (placeFab() || attempts >= 20) {
+                    clearInterval(retry);
+                }
+            }, 250);
+
+            // Dodatkowo obserwuj zmiany w galerii (lazy-load, slider init)
+            const observer = new MutationObserver(() => {
+                if (fab.isConnected) {
+                    observer.disconnect();
+                    return;
+                }
+                if (placeFab()) {
+                    observer.disconnect();
+                }
+            });
+            observer.observe(gallery, { childList: true, subtree: true });
+        }
     }
 
     // ── Modal binding ───────────────────────────────────────────────────────
