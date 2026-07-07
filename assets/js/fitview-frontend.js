@@ -100,21 +100,13 @@ const FitView = (() => {
         fab.addEventListener('touchstart', (e) => e.stopPropagation(), true);
 
         function pickTarget() {
-            // Przypnij do .flex-viewport, ale wymuś widoczność przycisku mimo overflow:hidden slidera
-            const vp = gallery.querySelector('.flex-viewport');
-            if (vp) {
-                vp.style.overflow = 'visible';
-                return vp;
-            }
-            return gallery.querySelector('.woocommerce-product-gallery__wrapper')
-                || gallery.querySelector('.wc-block-components-product-image-gallery')
-                || gallery;
+            // Kontener galerii ma szerokość widocznego obszaru (slajdy/viewport mają ogromną szerokość wewnętrzną)
+            return gallery;
         }
 
         function placeFab() {
             const target = pickTarget();
             if (!target) return false;
-            // Upewnij się, że w kontenerze jest wyrenderowane zdjęcie
             const img = target.querySelector('img');
             if (!img || img.getBoundingClientRect().width === 0) return false;
 
@@ -122,6 +114,13 @@ const FitView = (() => {
                 target.style.position = 'relative';
             }
             target.appendChild(fab);
+
+            // Pozycjonuj nad głównym zdjęciem: dół przycisku = dół obszaru głównego zdjęcia
+            const viewport = gallery.querySelector('.flex-viewport') || target;
+            const vpRect = viewport.getBoundingClientRect();
+            const gRect  = target.getBoundingClientRect();
+            const offsetFromBottom = gRect.bottom - vpRect.bottom; // wysokość miniaturek pod zdjęciem
+            fab.style.bottom = (offsetFromBottom + 12) + 'px';
             return true;
         }
 
