@@ -32,8 +32,8 @@ class Admin {
     public function add_menu(): void {
         \add_submenu_page(
             'woocommerce',
-            \__( 'FitView — Virtual Try-On', 'fitview' ),
-            \__( 'FitView', 'fitview' ),
+            \__( 'Fito — Virtual Try-On', 'fitview' ),
+            \__( 'Fito', 'fitview' ),
             'manage_woocommerce',
             'fitview-settings',
             [ $this, 'render_page' ]
@@ -163,7 +163,7 @@ class Admin {
 
         // ── Sections ─────────────────────────────────────────────────────────
 
-        \add_settings_section( 'fitview_api',        \__( 'Połączenie z FitView SaaS', 'fitview' ),                       null, 'fitview-settings' );
+        \add_settings_section( 'fitview_api',        \__( 'Połączenie z Fito SaaS', 'fitview' ),                       null, 'fitview-settings' );
         \add_settings_section( 'fitview_display',    \__( 'Wygląd i zachowanie', 'fitview' ),                             null, 'fitview-settings' );
         \add_settings_section( 'fitview_messages',   \__( 'Komunikaty podczas generowania', 'fitview' ),                  null, 'fitview-settings' );
         \add_settings_section( 'fitview_categories', \__( 'Kategorie produktów', 'fitview' ),                             null, 'fitview-settings' );
@@ -171,8 +171,8 @@ class Admin {
 
         // ── Fields ────────────────────────────────────────────────────────────
 
-        \add_settings_field( 'fitview_backend_url',           \__( 'URL backendu FitView', 'fitview' ),             [ $this, 'field_backend_url' ],          'fitview-settings', 'fitview_api' );
-        \add_settings_field( 'fitview_api_key',               \__( 'Klucz API FitView', 'fitview' ),                [ $this, 'field_api_key' ],               'fitview-settings', 'fitview_api' );
+        \add_settings_field( 'fitview_backend_url',           \__( 'URL backendu Fito', 'fitview' ),             [ $this, 'field_backend_url' ],          'fitview-settings', 'fitview_api' );
+        \add_settings_field( 'fitview_api_key',               \__( 'Klucz API Fito', 'fitview' ),                [ $this, 'field_api_key' ],               'fitview-settings', 'fitview_api' );
         \add_settings_field( 'fitview_position',              \__( 'Pozycja przycisku', 'fitview' ),                [ $this, 'field_position' ],              'fitview-settings', 'fitview_display' );
         \add_settings_field( 'fitview_show_strip', \__( 'Pasek pod przyciskiem koszyka', 'fitview' ), [ $this, 'render_show_strip_field' ], 'fitview-settings', 'fitview_display' );
         \add_settings_field(
@@ -206,7 +206,7 @@ class Admin {
             placeholder="https://api.fitview.app"
         >
         <p class="description">
-            <?php \esc_html_e( 'URL serwera FitView SaaS, np. https://api.twojadomena.pl — bez ukośnika na końcu.', 'fitview' ); ?>
+            <?php \esc_html_e( 'URL serwera Fito SaaS, np. https://api.twojadomena.pl — bez ukośnika na końcu.', 'fitview' ); ?>
         </p>
         <?php
     }
@@ -227,7 +227,7 @@ class Admin {
             placeholder="fv_live_…"
         >
         <p class="description">
-            <?php \esc_html_e( 'Klucz API wygenerowany w panelu FitView SaaS (format: fv_live_xxxxx).', 'fitview' ); ?>
+            <?php \esc_html_e( 'Klucz API wygenerowany w panelu Fito SaaS (format: fv_live_xxxxx).', 'fitview' ); ?>
         </p>
         <button
             type="button"
@@ -235,7 +235,7 @@ class Admin {
             class="button button-secondary"
             style="margin-top:8px"
         >
-            <?php \esc_html_e( 'Testuj połączenie z FitView', 'fitview' ); ?>
+            <?php \esc_html_e( 'Testuj połączenie z Fito', 'fitview' ); ?>
         </button>
         <span id="fitview-test-result" style="margin-left:10px;font-weight:500;vertical-align:middle"></span>
         <?php
@@ -491,7 +491,7 @@ class Admin {
         <div class="wrap">
             <h1 style="display:flex;align-items:center;gap:8px">
                 <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#00E5C4"></span>
-                <?php \esc_html_e( 'FitView — Virtual Try-On', 'fitview' ); ?>
+                <?php \esc_html_e( 'Fito — Virtual Try-On', 'fitview' ); ?>
             </h1>
             <p><?php \esc_html_e( 'Konfiguracja wirtualnej przymierzalni AI dla WooCommerce.', 'fitview' ); ?></p>
 
