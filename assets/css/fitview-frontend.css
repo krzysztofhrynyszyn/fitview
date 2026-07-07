@@ -339,7 +339,8 @@
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background: var(--fv-purple-soft);
+    background: #fff;
+    border: 1px solid var(--fv-purple-light);
     color: var(--fv-purple);
     display: flex;
     align-items: center;
@@ -404,19 +405,32 @@
     object-fit: contain;
 }
 
-.fv-preview-badge {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    background: linear-gradient(135deg, #7A4DFF, #4C7CFF);
-    color: #fff;
-    font-size: 10px;
-    font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 20px;
+.fv-preview-status {
     display: flex;
     align-items: center;
-    gap: 4px;
+    justify-content: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--fv-purple);
+    margin: 8px 0 12px;
+}
+
+.fv-preview-status svg {
+    flex-shrink: 0;
+}
+
+/* Po dodaniu zdjęcia: wyśrodkuj nagłówek i podtytuł tego kroku */
+.fv-pane-upload.fv-photo-added .fv-modal-title,
+.fv-pane-upload.fv-photo-added .fv-modal-subtitle {
+    text-align: center;
+}
+
+.fv-submit-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
 }
 
 .fv-pose-warning {
@@ -492,18 +506,8 @@
     color: #fff;
 }
 
-.fv-btn-lime {
-    background: var(--fv-indigo);
-    color: #fff;
-}
-
-.fv-btn-dark {
-    background: var(--fv-indigo);
-    color: #fff;
-}
-
 .fv-btn-ghost {
-    background: var(--fv-gray-light);
+    background: #fff;
     color: var(--fv-indigo);
     border: 1px solid #E5E7EB;
 }
@@ -596,6 +600,11 @@
     border-radius: var(--fv-radius);
     padding: 7px 8px;
     min-width: 0;
+    transition: opacity 0.2s ease;
+}
+
+.fv-info-tile.fv-info-tile-fade {
+    opacity: 0;
 }
 
 .fv-info-tile i {
@@ -642,6 +651,16 @@
 }
 
 /* ── Result pane ─────────────────────────────────────────────────────────── */
+
+.fv-pane-result {
+    text-align: center;
+}
+
+.fv-result-hint {
+    font-size: 11px;
+    color: var(--fv-gray);
+    margin: 10px 0 0;
+}
 
 .fv-result-img-wrap {
     position: relative;

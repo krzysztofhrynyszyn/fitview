@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
 
         <!-- ── State: upload ────────────────────────────────────────────── -->
-        <div class="fv-pane fv-pane-upload">
+        <div class="fv-pane fv-pane-upload" id="fv-pane-upload">
             <h2 id="fv-modal-title" class="fv-modal-title">
                 <?php esc_html_e( 'Przymierz wirtualnie', 'fitview' ); ?>
             </h2>
@@ -122,12 +122,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                     src=""
                     alt="<?php esc_attr_e( 'Podgląd Twojego zdjęcia', 'fitview' ); ?>"
                 >
-                <div class="fv-preview-badge">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-                        <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <?php esc_html_e( 'Zdjęcie gotowe', 'fitview' ); ?>
-                </div>
+            </div>
+
+            <div class="fv-preview-status" id="fv-preview-status" style="display:none">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <?php esc_html_e( 'Zdjęcie dodane', 'fitview' ); ?>
             </div>
 
             <!-- Landscape orientation warning -->
@@ -144,22 +145,20 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
 
             <!-- Action buttons (shown after file chosen) -->
-            <div id="fv-submit-row" style="display:none">
-                <div style="display:flex; gap:8px; margin-top:12px">
-                    <button class="fv-btn fv-btn-ghost fv-btn-sm" id="fv-change-photo" type="button" style="flex:1">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-                            <polyline points="1 4 1 10 7 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M3.51 15a9 9 0 102.13-9.36L1 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <?php esc_html_e( 'Zmień', 'fitview' ); ?>
-                    </button>
-                    <button class="fv-btn fv-btn-primary" id="fv-submit" type="button" style="flex:3">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-                            <path d="M15 4V2M15 16v-2M8 9h2M20 9h2M17.8 11.8L19 13M17.8 6.2L19 5M3 21l9-9M12.2 6.2L11 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <?php esc_html_e( 'Generuj wizualizację', 'fitview' ); ?>
-                    </button>
-                </div>
+            <div id="fv-submit-row" class="fv-submit-row" style="display:none">
+                <button class="fv-btn fv-btn-primary" id="fv-submit" type="button">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                        <path d="M15 4V2M15 16v-2M8 9h2M20 9h2M17.8 11.8L19 13M17.8 6.2L19 5M3 21l9-9M12.2 6.2L11 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <?php esc_html_e( 'Generuj wizualizację', 'fitview' ); ?>
+                </button>
+                <button class="fv-btn fv-btn-ghost fv-btn-sm" id="fv-change-photo" type="button">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                        <polyline points="1 4 1 10 7 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3.51 15a9 9 0 102.13-9.36L1 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <?php esc_html_e( 'Zmień', 'fitview' ); ?>
+                </button>
             </div>
 
             <p class="fv-privacy-note">
@@ -181,17 +180,9 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
             <div id="fv-carousel" style="display:none"></div>
             <div class="fv-info-bar" id="fv-info-bar" style="display:none">
-                <div class="fv-info-tile" id="fv-info-tile-1" style="display:none">
-                    <i class="ti ti-tag" aria-hidden="true"></i>
-                    <span class="fv-info-text" id="fv-info-text-1"></span>
-                </div>
-                <div class="fv-info-tile" id="fv-info-tile-2" style="display:none">
-                    <i class="ti ti-users" aria-hidden="true"></i>
-                    <span class="fv-info-text" id="fv-info-text-2"></span>
-                </div>
-                <div class="fv-info-tile" id="fv-info-tile-3" style="display:none">
-                    <i class="ti ti-truck" aria-hidden="true"></i>
-                    <span class="fv-info-text" id="fv-info-text-3"></span>
+                <div class="fv-info-tile" id="fv-info-tile">
+                    <i class="ti ti-tag" id="fv-info-icon" aria-hidden="true"></i>
+                    <span class="fv-info-text" id="fv-info-text"></span>
                 </div>
             </div>
         </div>
@@ -216,7 +207,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
             <div class="fv-result-actions">
-                <button id="fv-add-to-cart" class="fv-btn fv-btn-lime" type="button">
+                <button id="fv-add-to-cart" class="fv-btn fv-btn-primary" type="button">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
                         <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.5"/>
                         <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.5"/>
@@ -225,9 +216,16 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php esc_html_e( 'Dodaj do koszyka', 'fitview' ); ?>
                 </button>
                 <button id="fv-new-photo" class="fv-btn fv-btn-ghost" type="button">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                        <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="12" cy="13" r="4" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
                     <?php esc_html_e( 'Nowe zdjęcie', 'fitview' ); ?>
                 </button>
             </div>
+            <p class="fv-result-hint">
+                <?php esc_html_e( 'Chcesz poprawić efekt? Dodaj inne zdjęcie sylwetki.', 'fitview' ); ?>
+            </p>
         </div>
 
         <!-- ── State: error ─────────────────────────────────────────────── -->
