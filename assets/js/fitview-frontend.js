@@ -107,21 +107,28 @@ const FitView = (() => {
         function placeFab() {
             const target = pickTarget();
             if (!target) return false;
-            const img = target.querySelector('img');
+            const viewport = gallery.querySelector('.flex-viewport') || target;
+            const img = viewport.querySelector('img');
             if (!img || img.getBoundingClientRect().width === 0) return false;
 
             if (getComputedStyle(target).position === 'static') {
                 target.style.position = 'relative';
             }
             target.appendChild(fab);
+            reposition();
+            return true;
+        }
 
-            // Pozycjonuj nad głównym zdjęciem: dół przycisku = dół obszaru głównego zdjęcia
-            const viewport = gallery.querySelector('.flex-viewport') || target;
+        function reposition() {
+            const viewport = gallery.querySelector('.flex-viewport') || pickTarget();
+            const target = pickTarget();
             const vpRect = viewport.getBoundingClientRect();
             const gRect  = target.getBoundingClientRect();
-            const offsetFromBottom = gRect.bottom - vpRect.bottom; // wysokość miniaturek pod zdjęciem
-            fab.style.bottom = (offsetFromBottom + 12) + 'px';
-            return true;
+            const fabH = fab.offsetHeight || 45;
+            // Górna krawędź przycisku względem kontenera galerii = dół zdjęcia - wysokość przycisku - margines
+            const top = (vpRect.bottom - gRect.top) - fabH - 12;
+            fab.style.top = top + 'px';
+            fab.style.bottom = 'auto';
         }
 
         if (!placeFab()) {
@@ -136,6 +143,10 @@ const FitView = (() => {
             });
             mo.observe(gallery, { childList: true, subtree: true });
         }
+
+        window.addEventListener('resize', () => { if (fab.isConnected) reposition(); });
+        const moPos = new MutationObserver(() => { if (fab.isConnected) reposition(); });
+        moPos.observe(gallery, { attributes: true, childList: true, subtree: true, attributeFilter: ['class', 'style'] });
     }
 
     // ── Modal binding ───────────────────────────────────────────────────────
