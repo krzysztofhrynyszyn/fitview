@@ -72,8 +72,14 @@ const FitView = (() => {
         const gallery = document.querySelector('.woocommerce-product-gallery');
         if (!gallery) return;
 
-        if (getComputedStyle(gallery).position === 'static') {
-            gallery.style.position = 'relative';
+        // Preferuj kontener głównego zdjęcia (bez miniaturek), z fallbackiem na całą galerię
+        const target = gallery.querySelector('.flex-viewport')
+            || gallery.querySelector('.woocommerce-product-gallery__wrapper')
+            || gallery.querySelector('figure')
+            || gallery;
+
+        if (getComputedStyle(target).position === 'static') {
+            target.style.position = 'relative';
         }
 
         const fab = document.createElement('button');
@@ -95,7 +101,7 @@ const FitView = (() => {
             Przymierz
         `;
 
-        gallery.appendChild(fab);
+        target.appendChild(fab);
         fab.addEventListener('click', (e) => { e.stopPropagation(); openModal(); });
     }
 
