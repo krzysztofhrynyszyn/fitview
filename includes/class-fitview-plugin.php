@@ -143,6 +143,7 @@ class Plugin {
                 ] ) ),
                 'carouselTitle' => \get_option( 'fitview_carousel_title', 'Może Cię zainteresować' ),
                 'fabPosition'   => \get_option( 'fitview_fab_position', 'right' ),
+                'pluginUrl'     => FITVIEW_PLUGIN_URL,
             ]
         );
     }
