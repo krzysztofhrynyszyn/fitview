@@ -242,7 +242,7 @@
     color: var(--fv-indigo);
     margin: 0 0 8px;
     line-height: 1.3;
-    font-family: var(--fv-font-heading);
+    text-align: center;
 }
 
 .fv-modal-subtitle {
@@ -250,6 +250,7 @@
     color: var(--fv-gray);
     margin: 0 0 18px;
     line-height: 1.5;
+    text-align: center;
 }
 
 /* ── Upload zone ─────────────────────────────────────────────────────────── */
@@ -258,7 +259,7 @@
     border: 1.5px dashed var(--fv-purple);
     border-radius: var(--fv-radius);
     padding: 16px;
-    background: var(--fv-purple-soft);
+    background: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -429,12 +430,6 @@
 
 .fv-preview-status svg {
     flex-shrink: 0;
-}
-
-/* Po dodaniu zdjęcia: wyśrodkuj nagłówek i podtytuł tego kroku */
-.fv-pane-upload.fv-photo-added .fv-modal-title,
-.fv-pane-upload.fv-photo-added .fv-modal-subtitle {
-    text-align: center;
 }
 
 .fv-submit-row {
