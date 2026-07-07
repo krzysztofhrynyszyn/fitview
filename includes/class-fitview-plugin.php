@@ -142,6 +142,7 @@ class Plugin {
                     \get_option( 'fitview_msg_3', '' ),
                 ] ) ),
                 'carouselTitle' => \get_option( 'fitview_carousel_title', 'Może Cię zainteresować' ),
+                'fabPosition'   => \get_option( 'fitview_fab_position', 'right' ),
             ]
         );
     }

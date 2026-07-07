@@ -298,6 +298,7 @@ class Rest {
             if ( $user_photo_file ) {
                 @\unlink( $user_photo_file ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
             }
+            \do_action( 'fitview_tryon_completed' );
             return new \WP_REST_Response(
                 [
                     'success'    => true,

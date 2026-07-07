@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\khrynyszyn\\\\Desktop\\\\fitview\" -Recurse | Where-Object {!$_.PSIsContainer} | Select-Object @{N='Path';E={$_.FullName.Replace\\('C:\\\\Users\\\\khrynyszyn\\\\Desktop\\\\fitview\\\\',''\\)}} , @{N='Size';E={'{0:N0} B' -f $_.Length}} | Format-Table -AutoSize)",
-      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\khrynyszyn\\\\Desktop\\\\fitview-saas\" -Recurse -Name | Where-Object { $_ -notmatch 'node_modules' } | Select-Object -First 60)"
-    ]
-  }
-}

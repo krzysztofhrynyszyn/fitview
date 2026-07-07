@@ -72,26 +72,30 @@ const FitView = (() => {
         const gallery = document.querySelector('.woocommerce-product-gallery');
         if (!gallery) return;
 
-        // Ensure the gallery is a positioning context.
         if (getComputedStyle(gallery).position === 'static') {
             gallery.style.position = 'relative';
         }
 
         const fab = document.createElement('button');
-        fab.className   = 'fv-fab';
-        fab.type        = 'button';
-        fab.setAttribute('aria-label', 'Otwórz FitView — wirtualną przymierzalnię');
-        fab.innerHTML   = _eyeIconSVG();
+        fab.className = 'fv-fab';
+        fab.type      = 'button';
+        fab.setAttribute('aria-label', 'Otwórz Fito — wirtualną przymierzalnię');
 
-        const fabLabel = document.createElement('div');
-        fabLabel.className   = 'fv-fab-label';
-        fabLabel.textContent = 'Przymierz wirtualnie';
+        // Ustaw pozycję na podstawie ustawień sklepu
+        const position = (_data && _data.fabPosition) || 'right';
+        if (position === 'left') {
+            fab.classList.add('fv-fab-left');
+        }
+
+        fab.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <path d="M20 6.5H4C3.17 6.5 2.5 7.17 2.5 8v1c0 .83.67 1.5 1.5 1.5h.5v7a1 1 0 001 1h13a1 1 0 001-1v-7h.5c.83 0 1.5-.67 1.5-1.5V8c0-.83-.67-1.5-1.5-1.5z" fill="currentColor"/>
+                <path d="M19 3.5l1.5 1.5M5 3.5L3.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Przymierz
+        `;
 
         gallery.appendChild(fab);
-        gallery.appendChild(fabLabel);
-
-        // stopPropagation prevents the click from bubbling to the gallery or any
-        // parent form — ensures only the FAB opens the modal, nothing else.
         fab.addEventListener('click', (e) => { e.stopPropagation(); openModal(); });
     }
 

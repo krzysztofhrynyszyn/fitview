@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: FitView — Virtual Try-On
+ * Plugin Name: Fito — Virtual Try-On
  * Plugin URI: https://fitview.app
  * Description: Wirtualna przymierzalnia AI dla WooCommerce. Klienci widzą jak będą wyglądać w ubraniu przed zakupem.
  * Version: 1.4.0

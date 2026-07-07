@@ -151,6 +151,11 @@ class Admin {
             ]
         );
 
+        \register_setting( 'fitview_settings', 'fitview_fab_position', [
+            'type'    => 'string',
+            'default' => 'right',
+        ] );
+
         // ── Sections ─────────────────────────────────────────────────────────
 
         \add_settings_section( 'fitview_api',        \__( 'Połączenie z FitView SaaS', 'fitview' ),                       null, 'fitview-settings' );
@@ -164,6 +169,13 @@ class Admin {
         \add_settings_field( 'fitview_backend_url',           \__( 'URL backendu FitView', 'fitview' ),             [ $this, 'field_backend_url' ],          'fitview-settings', 'fitview_api' );
         \add_settings_field( 'fitview_api_key',               \__( 'Klucz API FitView', 'fitview' ),                [ $this, 'field_api_key' ],               'fitview-settings', 'fitview_api' );
         \add_settings_field( 'fitview_position',              \__( 'Pozycja przycisku', 'fitview' ),                [ $this, 'field_position' ],              'fitview-settings', 'fitview_display' );
+        \add_settings_field(
+            'fitview_fab_position',
+            \__( 'Pozycja przycisku na zdjęciu', 'fitview' ),
+            [ $this, 'render_fab_position_field' ],
+            'fitview-settings',
+            'fitview_appearance'
+        );
         \add_settings_field( 'fitview_enable_accounts',       \__( 'Konta użytkowników', 'fitview' ),               [ $this, 'field_accounts' ],              'fitview-settings', 'fitview_display' );
         \add_settings_field( 'fitview_msg_1',                 \__( 'Komunikat 1 (np. darmowa dostawa)', 'fitview' ), [ $this, 'field_msg_1' ],                 'fitview-settings', 'fitview_messages' );
         \add_settings_field( 'fitview_msg_2',                 \__( 'Komunikat 2 (np. kod rabatowy)', 'fitview' ),    [ $this, 'field_msg_2' ],                 'fitview-settings', 'fitview_messages' );
@@ -377,6 +389,21 @@ class Admin {
         echo '<p class="description">'
             . \esc_html__( 'Odznacz wszystkie = FitView aktywny we wszystkich kategoriach (domyślne).', 'fitview' )
             . '</p>';
+    }
+
+    public function render_fab_position_field(): void {
+        $value = \get_option( 'fitview_fab_position', 'right' );
+        ?>
+        <select name="fitview_fab_position" id="fitview_fab_position">
+            <option value="right" <?php \selected( $value, 'right' ); ?>>
+                <?php \esc_html_e( 'Prawy dolny róg (domyślne)', 'fitview' ); ?>
+            </option>
+            <option value="left" <?php \selected( $value, 'left' ); ?>>
+                <?php \esc_html_e( 'Lewy dolny róg', 'fitview' ); ?>
+            </option>
+        </select>
+        <p class="description"><?php \esc_html_e( 'Pozycja przycisku "Przymierz" na zdjęciu produktu.', 'fitview' ); ?></p>
+        <?php
     }
 
     /**
