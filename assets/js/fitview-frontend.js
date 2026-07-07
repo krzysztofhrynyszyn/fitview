@@ -100,10 +100,13 @@ const FitView = (() => {
         fab.addEventListener('touchstart', (e) => e.stopPropagation(), true);
 
         function pickTarget() {
-            // Stabilny kontener głównego zdjęcia — obejmuje tylko duże zdjęcie, nie miniaturki,
-            // i jest poza linkami <a> powiększenia
-            return gallery.querySelector('.flex-viewport')
-                || gallery.querySelector('.woocommerce-product-gallery__wrapper')
+            // Przypnij do .flex-viewport, ale wymuś widoczność przycisku mimo overflow:hidden slidera
+            const vp = gallery.querySelector('.flex-viewport');
+            if (vp) {
+                vp.style.overflow = 'visible';
+                return vp;
+            }
+            return gallery.querySelector('.woocommerce-product-gallery__wrapper')
                 || gallery.querySelector('.wc-block-components-product-image-gallery')
                 || gallery;
         }
