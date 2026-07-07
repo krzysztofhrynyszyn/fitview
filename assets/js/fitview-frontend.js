@@ -91,69 +91,48 @@ const FitView = (() => {
             Przymierz
         `;
 
-        // Blokuj powiększanie zdjęcia / lightbox — przechwyć klik zanim dotrze do galerii
-        const openHandler = (e) => {
+        fab.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
             openModal();
-        };
-        fab.addEventListener('click', openHandler, true);
-        fab.addEventListener('mousedown', (e) => { e.stopPropagation(); }, true);
-        fab.addEventListener('touchstart', (e) => { e.stopPropagation(); }, true);
+        }, true);
+        fab.addEventListener('mousedown', (e) => e.stopPropagation(), true);
+        fab.addEventListener('touchstart', (e) => e.stopPropagation(), true);
 
-        // Pozycjonuj FAB absolutnie względem galerii, nad największym (głównym) zdjęciem
-        gallery.style.position = getComputedStyle(gallery).position === 'static' ? 'relative' : gallery.style.position;
-        fab.style.position = 'absolute';
-        fab.style.margin = '0';
-        gallery.appendChild(fab);
-
-        function largestImage() {
-            let best = null, bestArea = 0;
-            gallery.querySelectorAll('img').forEach((img) => {
-                const r = img.getBoundingClientRect();
-                const area = r.width * r.height;
-                if (area > bestArea) { bestArea = area; best = img; }
-            });
-            return bestArea > 0 ? best : null;
+        function pickTarget() {
+            // Stabilny kontener głównego zdjęcia — obejmuje tylko duże zdjęcie, nie miniaturki,
+            // i jest poza linkami <a> powiększenia
+            return gallery.querySelector('.flex-viewport')
+                || gallery.querySelector('.woocommerce-product-gallery__wrapper')
+                || gallery.querySelector('.wc-block-components-product-image-gallery')
+                || gallery;
         }
 
-        function reposition() {
-            const img = largestImage();
-            if (!img) return;
-            const gRect = gallery.getBoundingClientRect();
-            const iRect = img.getBoundingClientRect();
-            const fabW = fab.offsetWidth || 140;
-            const fabH = fab.offsetHeight || 44;
-            const pad = 12;
-            const top = (iRect.bottom - gRect.top) - fabH - pad;
-            let left;
-            if (position === 'left') {
-                left = (iRect.left - gRect.left) + pad;
-            } else {
-                left = (iRect.right - gRect.left) - fabW - pad;
+        function placeFab() {
+            const target = pickTarget();
+            if (!target) return false;
+            // Upewnij się, że w kontenerze jest wyrenderowane zdjęcie
+            const img = target.querySelector('img');
+            if (!img || img.getBoundingClientRect().width === 0) return false;
+
+            if (getComputedStyle(target).position === 'static') {
+                target.style.position = 'relative';
             }
-            fab.style.top = top + 'px';
-            fab.style.left = left + 'px';
-            fab.style.right = 'auto';
-            fab.style.bottom = 'auto';
+            target.appendChild(fab);
+            return true;
         }
 
-        // Pierwsze ustawienie + ponawianie aż zdjęcie się wyrenderuje
-        let tries = 0;
-        const t = setInterval(() => {
-            reposition();
-            if (largestImage() || ++tries >= 20) clearInterval(t);
-        }, 200);
+        if (!placeFab()) {
+            let tries = 0;
+            const t = setInterval(() => {
+                if (placeFab() || ++tries >= 25) clearInterval(t);
+            }, 200);
 
-        // Aktualizuj pozycję przy zmianie slajdu, rozmiaru okna i scrollu galerii
-        window.addEventListener('resize', reposition);
-        const mo = new MutationObserver(reposition);
-        mo.observe(gallery, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'style'] });
-
-        // Gdy główne zdjęcie zmienia rozmiar (lazy-load / slider)
-        const mainImg = largestImage();
-        if (mainImg && 'ResizeObserver' in window) {
-            new ResizeObserver(reposition).observe(mainImg);
+            const mo = new MutationObserver(() => {
+                if (fab.isConnected) { mo.disconnect(); return; }
+                if (placeFab()) mo.disconnect();
+            });
+            mo.observe(gallery, { childList: true, subtree: true });
         }
     }
 
