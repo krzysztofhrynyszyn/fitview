@@ -69,7 +69,6 @@ const FitView = (() => {
      * Inject the floating eye button onto the WooCommerce product gallery.
      */
     function _injectFab() {
-        // Znajdź kontener galerii — obsłuż klasyczny WooCommerce i WooCommerce Blocks
         const gallery =
             document.querySelector('.woocommerce-product-gallery') ||
             document.querySelector('.wc-block-components-product-image-gallery') ||
@@ -77,19 +76,14 @@ const FitView = (() => {
             document.querySelector('[data-block-name="woocommerce/product-image-gallery"]');
 
         if (!gallery) return;
-
-        // Zapobiegaj podwójnemu wstrzyknięciu
         if (gallery.querySelector('.fv-fab')) return;
 
-        const fab = document.createElement('button');
-        fab.className = 'fv-fab';
-        fab.type      = 'button';
-        fab.setAttribute('aria-label', 'Otwórz Fito — wirtualną przymierzalnię');
-
         const position = (_data && _data.fabPosition) || 'right';
-        if (position === 'left') {
-            fab.classList.add('fv-fab-left');
-        }
+
+        const fab = document.createElement('button');
+        fab.className = 'fv-fab' + (position === 'left' ? ' fv-fab-left' : '');
+        fab.type = 'button';
+        fab.setAttribute('aria-label', 'Otwórz Fito — wirtualną przymierzalnię');
 
         const iconUrl = (_data && _data.pluginUrl ? _data.pluginUrl : '') + 'assets/img/fito-icon-button.svg';
         fab.innerHTML = `
@@ -97,62 +91,69 @@ const FitView = (() => {
             Przymierz
         `;
 
-        fab.addEventListener('click', (e) => { e.stopPropagation(); openModal(); });
+        // Blokuj powiększanie zdjęcia / lightbox — przechwyć klik zanim dotrze do galerii
+        const openHandler = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openModal();
+        };
+        fab.addEventListener('click', openHandler, true);
+        fab.addEventListener('mousedown', (e) => { e.stopPropagation(); }, true);
+        fab.addEventListener('touchstart', (e) => { e.stopPropagation(); }, true);
 
-        // Znajdź największe wyrenderowane zdjęcie w galerii i przypnij do jego rodzica
-        function findMainImageContainer() {
-            const imgs = Array.from(gallery.querySelectorAll('img'));
-            if (!imgs.length) return null;
+        // Pozycjonuj FAB absolutnie względem galerii, nad największym (głównym) zdjęciem
+        gallery.style.position = getComputedStyle(gallery).position === 'static' ? 'relative' : gallery.style.position;
+        fab.style.position = 'absolute';
+        fab.style.margin = '0';
+        gallery.appendChild(fab);
 
-            let best = null;
-            let bestArea = 0;
-            imgs.forEach((img) => {
-                const rect = img.getBoundingClientRect();
-                const area = rect.width * rect.height;
-                if (area > bestArea) {
-                    bestArea = area;
-                    best = img;
-                }
+        function largestImage() {
+            let best = null, bestArea = 0;
+            gallery.querySelectorAll('img').forEach((img) => {
+                const r = img.getBoundingClientRect();
+                const area = r.width * r.height;
+                if (area > bestArea) { bestArea = area; best = img; }
             });
-
-            // Zdjęcie jeszcze się nie wyrenderowało
-            if (!best || bestArea === 0) return null;
-
-            return best.parentElement || gallery;
+            return bestArea > 0 ? best : null;
         }
 
-        function placeFab() {
-            const container = findMainImageContainer();
-            if (!container) return false;
-
-            if (getComputedStyle(container).position === 'static') {
-                container.style.position = 'relative';
+        function reposition() {
+            const img = largestImage();
+            if (!img) return;
+            const gRect = gallery.getBoundingClientRect();
+            const iRect = img.getBoundingClientRect();
+            const fabW = fab.offsetWidth || 140;
+            const fabH = fab.offsetHeight || 44;
+            const pad = 12;
+            const top = (iRect.bottom - gRect.top) - fabH - pad;
+            let left;
+            if (position === 'left') {
+                left = (iRect.left - gRect.left) + pad;
+            } else {
+                left = (iRect.right - gRect.left) - fabW - pad;
             }
-            container.appendChild(fab);
-            return true;
+            fab.style.top = top + 'px';
+            fab.style.left = left + 'px';
+            fab.style.right = 'auto';
+            fab.style.bottom = 'auto';
         }
 
-        // Spróbuj od razu; jeśli zdjęcia jeszcze się nie wyrenderowały, obserwuj zmiany
-        if (!placeFab()) {
-            let attempts = 0;
-            const retry = setInterval(() => {
-                attempts++;
-                if (placeFab() || attempts >= 20) {
-                    clearInterval(retry);
-                }
-            }, 250);
+        // Pierwsze ustawienie + ponawianie aż zdjęcie się wyrenderuje
+        let tries = 0;
+        const t = setInterval(() => {
+            reposition();
+            if (largestImage() || ++tries >= 20) clearInterval(t);
+        }, 200);
 
-            // Dodatkowo obserwuj zmiany w galerii (lazy-load, slider init)
-            const observer = new MutationObserver(() => {
-                if (fab.isConnected) {
-                    observer.disconnect();
-                    return;
-                }
-                if (placeFab()) {
-                    observer.disconnect();
-                }
-            });
-            observer.observe(gallery, { childList: true, subtree: true });
+        // Aktualizuj pozycję przy zmianie slajdu, rozmiaru okna i scrollu galerii
+        window.addEventListener('resize', reposition);
+        const mo = new MutationObserver(reposition);
+        mo.observe(gallery, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'style'] });
+
+        // Gdy główne zdjęcie zmienia rozmiar (lazy-load / slider)
+        const mainImg = largestImage();
+        if (mainImg && 'ResizeObserver' in window) {
+            new ResizeObserver(reposition).observe(mainImg);
         }
     }
 
