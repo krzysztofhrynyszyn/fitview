@@ -156,6 +156,11 @@ class Admin {
             'default' => 'right',
         ] );
 
+        \register_setting( 'fitview_settings', 'fitview_show_strip', [
+            'type'    => 'boolean',
+            'default' => true,
+        ] );
+
         // ── Sections ─────────────────────────────────────────────────────────
 
         \add_settings_section( 'fitview_api',        \__( 'Połączenie z FitView SaaS', 'fitview' ),                       null, 'fitview-settings' );
@@ -169,6 +174,7 @@ class Admin {
         \add_settings_field( 'fitview_backend_url',           \__( 'URL backendu FitView', 'fitview' ),             [ $this, 'field_backend_url' ],          'fitview-settings', 'fitview_api' );
         \add_settings_field( 'fitview_api_key',               \__( 'Klucz API FitView', 'fitview' ),                [ $this, 'field_api_key' ],               'fitview-settings', 'fitview_api' );
         \add_settings_field( 'fitview_position',              \__( 'Pozycja przycisku', 'fitview' ),                [ $this, 'field_position' ],              'fitview-settings', 'fitview_display' );
+        \add_settings_field( 'fitview_show_strip', \__( 'Pasek pod przyciskiem koszyka', 'fitview' ), [ $this, 'render_show_strip_field' ], 'fitview-settings', 'fitview_display' );
         \add_settings_field(
             'fitview_fab_position',
             \__( 'Pozycja przycisku na zdjęciu', 'fitview' ),
@@ -389,6 +395,17 @@ class Admin {
         echo '<p class="description">'
             . \esc_html__( 'Odznacz wszystkie = FitView aktywny we wszystkich kategoriach (domyślne).', 'fitview' )
             . '</p>';
+    }
+
+    public function render_show_strip_field(): void {
+        $value = \get_option( 'fitview_show_strip', true );
+        ?>
+        <label>
+            <input type="checkbox" name="fitview_show_strip" value="1" <?php \checked( $value, true ); ?>>
+            <?php \esc_html_e( 'Pokaż pasek "Przymierz wirtualnie" pod przyciskiem "Dodaj do koszyka"', 'fitview' ); ?>
+        </label>
+        <p class="description"><?php \esc_html_e( 'Odznacz jeśli chcesz mieć tylko przycisk na zdjęciu produktu.', 'fitview' ); ?></p>
+        <?php
     }
 
     public function render_fab_position_field(): void {
