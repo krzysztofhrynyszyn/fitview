@@ -131,19 +131,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <?php esc_html_e( 'Zdjęcie dodane', 'fitview' ); ?>
             </div>
 
-            <!-- Landscape orientation warning -->
-            <div class="fv-pose-warning" id="fv-pose-warning" style="display:none">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <line x1="12" y1="9" x2="12" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    <line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                <div>
-                    <strong><?php esc_html_e( 'Sprawdź zdjęcie', 'fitview' ); ?></strong>
-                    <p><?php esc_html_e( 'Najlepsze efekty daje zdjęcie pionowe — cała sylwetka przodem do aparatu.', 'fitview' ); ?></p>
-                </div>
-            </div>
-
             <!-- Action buttons (shown after file chosen) -->
             <div id="fv-submit-row" class="fv-submit-row" style="display:none">
                 <button class="fv-btn fv-btn-primary" id="fv-submit" type="button">

@@ -108,9 +108,16 @@ class Plugin {
         );
 
         \wp_enqueue_style(
+            'fitview-fonts',
+            'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap',
+            [],
+            null
+        );
+
+        \wp_enqueue_style(
             'fitview-frontend',
             FITVIEW_PLUGIN_URL . 'assets/css/fitview-frontend.css',
-            [],
+            [ 'fitview-fonts' ],
             (string) \filemtime( FITVIEW_PLUGIN_DIR . 'assets/css/fitview-frontend.css' )
         );
 

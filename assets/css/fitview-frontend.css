@@ -16,6 +16,14 @@
     --fv-white:        #FFFFFF;
     --fv-radius:       8px;
     --fv-radius-lg:    14px;
+    --fv-font-heading: 'Space Grotesk', sans-serif;
+    --fv-font-body:    'Inter', sans-serif;
+}
+
+.fv-modal,
+.fv-strip,
+.fv-fab {
+    font-family: var(--fv-font-body);
 }
 
 /* ── FAB button ──────────────────────────────────────────────────────────── */
@@ -191,6 +199,7 @@
 .fv-modal-logo strong {
     color: var(--fv-indigo);
     font-weight: 700;
+    font-family: var(--fv-font-heading);
 }
 
 .fv-close-btn {
@@ -233,6 +242,7 @@
     color: var(--fv-indigo);
     margin: 0 0 8px;
     line-height: 1.3;
+    font-family: var(--fv-font-heading);
 }
 
 .fv-modal-subtitle {
@@ -373,7 +383,8 @@
     font-size: 11px;
     color: var(--fv-indigo-mid);
     margin-top: 8px;
-    background: var(--fv-purple-light);
+    background: #fff;
+    border: 1px solid var(--fv-purple-light);
     padding: 6px 10px;
     border-radius: var(--fv-radius);
     width: 100%;
@@ -431,37 +442,6 @@
     flex-direction: column;
     gap: 8px;
     margin-top: 12px;
-}
-
-.fv-pose-warning {
-    display: flex;
-    align-items: flex-start;
-    gap: 9px;
-    padding: 10px 12px;
-    background: #FFF8E6;
-    border: 0.5px solid #F5C842;
-    border-radius: var(--fv-radius);
-    font-size: 12px;
-    color: var(--fv-indigo);
-    line-height: 1.5;
-    margin-bottom: 0;
-}
-
-.fv-pose-warning svg {
-    color: #D4920A;
-    flex-shrink: 0;
-    margin-top: 1px;
-}
-
-.fv-pose-warning strong {
-    font-weight: 500;
-    display: block;
-    margin-bottom: 2px;
-}
-
-.fv-pose-warning p {
-    color: var(--fv-gray);
-    margin: 0;
 }
 
 .fv-btn-sm {

@@ -404,19 +404,21 @@ const FitView = (() => {
     function _showUploadPreview(dataUrl, isPortrait) {
         try { sessionStorage.setItem('fitview_person_image_url', dataUrl); } catch (_e) { /* quota exceeded — skip persistence */ }
 
-        const previewImg  = el('fv-preview-img');
-        const previewWrap = el('fv-preview-wrap');
-        const warning     = el('fv-pose-warning');
-        const uploadZone  = el('fv-upload-zone');
-        const submitRow   = el('fv-submit-row');
-        const submitBtn   = el('fv-submit');
+        const previewImg    = el('fv-preview-img');
+        const previewWrap   = el('fv-preview-wrap');
+        const previewStatus = el('fv-preview-status');
+        const uploadZone      = el('fv-upload-zone');
+        const submitRow        = el('fv-submit-row');
+        const submitBtn         = el('fv-submit');
+        const pane                = el('fv-pane-upload');
 
-        if (previewImg)  previewImg.src = dataUrl;
-        if (previewWrap) previewWrap.style.display = 'flex';
-        if (warning)     warning.style.display = isPortrait ? 'none' : 'flex';
-        if (uploadZone)  uploadZone.style.display = 'none';
-        if (submitRow)   submitRow.style.display = 'block';
-        if (submitBtn)   submitBtn.disabled = false;
+        if (previewImg)    previewImg.src = dataUrl;
+        if (previewWrap)   previewWrap.style.display = 'flex';
+        if (previewStatus) previewStatus.style.display = 'flex';
+        if (uploadZone)    uploadZone.style.display = 'none';
+        if (submitRow)     submitRow.style.display = 'flex';
+        if (submitBtn)     submitBtn.disabled = false;
+        if (pane)           pane.classList.add('fv-photo-added');
     }
 
     // ── Try-on submission ───────────────────────────────────────────────────
@@ -557,20 +559,32 @@ const FitView = (() => {
         const msgs = Object.values(_data.shopMessages).filter(Boolean);
         if (!msgs.length) return;
 
-        const bar = el('fv-info-bar');
-        if (!bar) return;
-        bar.style.display = 'flex';
+        const bar  = el('fv-info-bar');
+        const tile = el('fv-info-tile');
+        const text = el('fv-info-text');
+        const icon = el('fv-info-icon');
+        if (!bar || !tile || !text || !icon) return;
 
-        for (let i = 0; i < 3; i++) {
-            const tile = el('fv-info-tile-' + (i + 1));
-            const text = el('fv-info-text-' + (i + 1));
-            if (!tile || !text) continue;
-            if (msgs[i]) {
-                text.textContent = msgs[i];
-                tile.style.display = 'flex';
-            } else {
-                tile.style.display = 'none';
-            }
+        const ICONS = ['ti-tag', 'ti-users', 'ti-truck'];
+        let i = 0;
+
+        const show = (idx) => {
+            icon.className = 'ti ' + (ICONS[idx % ICONS.length] || 'ti-sparkles');
+            text.textContent = msgs[idx];
+        };
+
+        bar.style.display = 'flex';
+        show(0);
+
+        if (msgs.length > 1) {
+            _shopMsgInterval = setInterval(() => {
+                i = (i + 1) % msgs.length;
+                tile.classList.add('fv-info-tile-fade');
+                setTimeout(() => {
+                    show(i);
+                    tile.classList.remove('fv-info-tile-fade');
+                }, 200);
+            }, 3200);
         }
     }
 
@@ -623,8 +637,9 @@ const FitView = (() => {
             const arrowCss = [
                 'position:absolute', 'top:50%', 'transform:translateY(-50%)',
                 'width:30px', 'height:30px', 'border-radius:50%',
-                'background:rgba(0,0,0,0.45)', 'color:#fff',
-                'border:none', 'cursor:pointer', 'z-index:10',
+                'background:#fff', 'color:var(--fv-indigo)',
+                'box-shadow:0 2px 8px rgba(30,27,75,0.22)',
+                'border:1px solid var(--fv-purple-light)', 'cursor:pointer', 'z-index:10',
                 'display:flex', 'align-items:center', 'justify-content:center',
                 'font-size:22px', 'line-height:1', 'padding:0',
                 'user-select:none', 'flex-shrink:0',
@@ -756,21 +771,23 @@ const FitView = (() => {
         _currentFile = null;
         _jobId       = null;
 
-        const previewImg  = el('fv-preview-img');
-        const previewWrap = el('fv-preview-wrap');
-        const warning     = el('fv-pose-warning');
-        const uploadZone  = el('fv-upload-zone');
-        const submitRow   = el('fv-submit-row');
-        const submitBtn   = el('fv-submit');
-        const fileInput   = el('fv-file-input');
+        const previewImg    = el('fv-preview-img');
+        const previewWrap   = el('fv-preview-wrap');
+        const previewStatus = el('fv-preview-status');
+        const uploadZone      = el('fv-upload-zone');
+        const submitRow        = el('fv-submit-row');
+        const submitBtn         = el('fv-submit');
+        const fileInput          = el('fv-file-input');
+        const pane                = el('fv-pane-upload');
 
-        if (previewImg)  previewImg.src = '';
-        if (previewWrap) previewWrap.style.display = 'none';
-        if (warning)     warning.style.display = 'none';
-        if (uploadZone)  uploadZone.style.display = '';
-        if (submitRow)   submitRow.style.display = 'none';
-        if (submitBtn)   submitBtn.disabled = true;
-        if (fileInput)   fileInput.value = '';
+        if (previewImg)    previewImg.src = '';
+        if (previewWrap)   previewWrap.style.display = 'none';
+        if (previewStatus) previewStatus.style.display = 'none';
+        if (uploadZone)    uploadZone.style.display = '';
+        if (submitRow)     submitRow.style.display = 'none';
+        if (submitBtn)     submitBtn.disabled = true;
+        if (fileInput)     fileInput.value = '';
+        if (pane)           pane.classList.remove('fv-photo-added');
 
         setState('upload');
     }
