@@ -168,13 +168,14 @@ class Plugin {
             id="fv-strip-cta"
             role="button"
             tabindex="0"
-            aria-label="<?php \esc_attr_e( 'Otwórz FitView — wirtualną przymierzalnię', 'fitview' ); ?>"
+            aria-label="<?php \esc_attr_e( 'Otwórz Fito — wirtualną przymierzalnię', 'fitview' ); ?>"
         >
             <svg class="fv-strip-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="currentColor"/>
+                <path d="M20 6.5H4C3.17 6.5 2.5 7.17 2.5 8v1c0 .83.67 1.5 1.5 1.5h.5v7a1 1 0 001 1h13a1 1 0 001-1v-7h.5c.83 0 1.5-.67 1.5-1.5V8c0-.83-.67-1.5-1.5-1.5zM17 17H7v-6.5h10V17z" fill="currentColor"/>
+                <path d="M19 3.5l1.5 1.5M5 3.5L3.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
             <span class="fv-strip-text">
-                <strong><?php \esc_html_e( 'FitView', 'fitview' ); ?></strong>
+                <strong><?php \esc_html_e( 'Fito', 'fitview' ); ?></strong>
                 &mdash; <?php \esc_html_e( 'Przymierz wirtualnie', 'fitview' ); ?>
             </span>
             <span class="fv-strip-badge"><?php \esc_html_e( 'AI', 'fitview' ); ?></span>

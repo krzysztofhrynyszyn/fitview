@@ -21,13 +21,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
                     <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="currentColor"/>
                 </svg>
-                <strong>FitView</strong>
+                <strong>fito</strong>
             </div>
             <button
                 id="fv-close"
                 class="fv-close-btn"
                 type="button"
-                aria-label="<?php esc_attr_e( 'Zamknij FitView', 'fitview' ); ?>"
+                aria-label="<?php esc_attr_e( 'Zamknij Fito', 'fitview' ); ?>"
             >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                     <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -208,7 +208,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
                         <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z" fill="currentColor"/>
                     </svg>
-                    <?php esc_html_e( 'FitView AI', 'fitview' ); ?>
+                    <?php esc_html_e( 'Fito AI', 'fitview' ); ?>
                 </div>
             </div>
             <div class="fv-result-actions">
