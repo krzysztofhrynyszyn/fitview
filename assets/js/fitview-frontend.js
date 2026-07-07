@@ -765,9 +765,6 @@ const FitView = (() => {
     function _resetUpload() {
         sessionStorage.removeItem('fitview_person_image_url');
 
-        const changeSavedBtn = el('fv-change-saved-photo');
-        if (changeSavedBtn) changeSavedBtn.remove();
-
         _currentFile = null;
         _jobId       = null;
 
@@ -799,25 +796,11 @@ const FitView = (() => {
         img.onload = () => {
             _currentFile = _dataUrlToFile(dataUrl, 'photo.jpg');
             _showUploadPreview(dataUrl, img.width <= img.height);
-            _injectChangeSavedPhotoBtn();
         };
         img.onerror = () => {
             sessionStorage.removeItem('fitview_person_image_url');
         };
         img.src = dataUrl;
-    }
-
-    function _injectChangeSavedPhotoBtn() {
-        if (el('fv-change-saved-photo')) return;
-        const previewWrap = el('fv-preview-wrap');
-        if (!previewWrap) return;
-        const btn = document.createElement('button');
-        btn.id          = 'fv-change-saved-photo';
-        btn.type        = 'button';
-        btn.className   = 'fv-change-saved-photo-btn';
-        btn.textContent = 'Zmień zdjęcie';
-        btn.addEventListener('click', _resetUpload);
-        previewWrap.appendChild(btn);
     }
 
     function _dataUrlToFile(dataUrl, filename) {
