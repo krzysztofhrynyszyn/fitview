@@ -174,7 +174,7 @@ class Admin {
             \__( 'Pozycja przycisku na zdjęciu', 'fitview' ),
             [ $this, 'render_fab_position_field' ],
             'fitview-settings',
-            'fitview_appearance'
+            'fitview_display'
         );
         \add_settings_field( 'fitview_enable_accounts',       \__( 'Konta użytkowników', 'fitview' ),               [ $this, 'field_accounts' ],              'fitview-settings', 'fitview_display' );
         \add_settings_field( 'fitview_msg_1',                 \__( 'Komunikat 1 (np. darmowa dostawa)', 'fitview' ), [ $this, 'field_msg_1' ],                 'fitview-settings', 'fitview_messages' );
