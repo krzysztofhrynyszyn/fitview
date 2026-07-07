@@ -304,52 +304,67 @@
     color: var(--fv-gray);
 }
 
+/* ── Pose tips: karty ikona + tytuł + opis ───────────────────────────────── */
+
+.fv-tips-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--fv-indigo-mid);
+    margin-top: 14px;
+    width: 100%;
+    text-align: left;
+}
+
 .fv-pose-tips {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 8px;
     width: 100%;
-    margin-top: 12px;
+    margin-top: 8px;
 }
 
 .fv-pose-tip {
+    background: #fff;
+    border: 1px solid var(--fv-purple-light);
     border-radius: var(--fv-radius);
-    padding: 8px 6px;
-    text-align: center;
+    padding: 10px 6px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
+    text-align: center;
 }
 
-.fv-pose-good {
+.fv-pose-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
     background: var(--fv-purple-soft);
-    border: 1px solid var(--fv-purple-light);
+    color: var(--fv-purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.fv-pose-bad {
-    background: #FCEBEB;
-    border: 1px solid #F7C1C1;
+.fv-pose-icon svg {
+    width: 18px;
+    height: 18px;
 }
 
-.fv-pose-tip svg {
-    width: 40px;
-    height: 60px;
-    overflow: hidden;
+.fv-pose-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--fv-indigo);
+    line-height: 1.2;
 }
 
-.fv-pose-check {
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.fv-pose-good .fv-pose-check { color: var(--fv-purple); }
-.fv-pose-bad .fv-pose-check  { color: #A32D2D; }
-
-.fv-pose-label {
+.fv-pose-desc {
     font-size: 10px;
-    font-weight: 500;
-    color: var(--fv-ink);
+    color: var(--fv-gray);
+    line-height: 1.3;
 }
 
 .fv-upload-hint {
@@ -564,6 +579,41 @@
     transition: width 0.35s ease;
 }
 
+/* ── Info bar: kafelki komunikatów sklepu (processing) ───────────────────── */
+
+.fv-info-bar {
+    display: flex;
+    gap: 6px;
+    margin-top: 14px;
+    width: 100%;
+}
+
+.fv-info-tile {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--fv-purple-soft);
+    border: 1px solid var(--fv-purple-light);
+    border-radius: var(--fv-radius);
+    padding: 7px 8px;
+    min-width: 0;
+}
+
+.fv-info-tile i {
+    color: var(--fv-purple);
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.fv-info-text {
+    font-size: 10px;
+    color: var(--fv-indigo-mid);
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 .fv-shop-msg {
     background: var(--fv-mint);
