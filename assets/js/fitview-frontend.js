@@ -557,19 +557,21 @@ const FitView = (() => {
         const msgs = Object.values(_data.shopMessages).filter(Boolean);
         if (!msgs.length) return;
 
-        const msgEl     = el('fv-shop-msg');
-        const msgTextEl = el('fv-shop-msg-text');
-        if (!msgEl || !msgTextEl) return;
+        const bar = el('fv-info-bar');
+        if (!bar) return;
+        bar.style.display = 'flex';
 
-        let idx = 0;
-        msgTextEl.textContent = msgs[idx];
-        msgEl.style.display = 'flex';
-
-        _shopMsgInterval = setInterval(() => {
-            if (_currentState !== 'processing') return;
-            idx = (idx + 1) % msgs.length;
-            msgTextEl.textContent = msgs[idx];
-        }, 5000);
+        for (let i = 0; i < 3; i++) {
+            const tile = el('fv-info-tile-' + (i + 1));
+            const text = el('fv-info-text-' + (i + 1));
+            if (!tile || !text) continue;
+            if (msgs[i]) {
+                text.textContent = msgs[i];
+                tile.style.display = 'flex';
+            } else {
+                tile.style.display = 'none';
+            }
+        }
     }
 
     function _clearProgressTimers() {
@@ -585,8 +587,8 @@ const FitView = (() => {
         }
         clearTimeout(_carouselPauseTimer);
         _carouselScrollPaused = false;
-        const msgEl = el('fv-shop-msg');
-        if (msgEl) msgEl.style.display = 'none';
+        const barEl = el('fv-info-bar');
+        if (barEl) barEl.style.display = 'none';
         const carouselEl = el('fv-carousel');
         if (carouselEl) { carouselEl.innerHTML = ''; carouselEl.style.display = 'none'; }
     }

@@ -18,9 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <!-- ── Modal header ─────────────────────────────────────────────── -->
         <div class="fv-modal-header">
             <div class="fv-modal-logo" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="currentColor"/>
-                </svg>
+                <img src="<?php echo esc_url( FITVIEW_PLUGIN_URL . 'assets/img/fito-icon-button.svg' ); ?>" alt="" width="24" height="24" style="display:block">
                 <strong>fito</strong>
             </div>
             <button
@@ -60,44 +58,40 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <p class="fv-upload-sub"><?php esc_html_e( 'Kliknij lub przeciągnij plik tutaj', 'fitview' ); ?></p>
                 <small class="fv-upload-meta"><?php esc_html_e( 'JPG, PNG · maks. 10 MB', 'fitview' ); ?></small>
 
+                <div class="fv-tips-label"><?php esc_html_e( 'Najlepsze efekty', 'fitview' ); ?></div>
                 <div class="fv-pose-tips">
 
-                    <!-- Karta 1: Przodem (dobra poza, zielona) -->
-                    <div class="fv-pose-tip fv-pose-good">
-                        <svg viewBox="0 0 60 90" fill="none" aria-hidden="true" focusable="false">
-                            <ellipse cx="30" cy="14" rx="10" ry="11" fill="#00C9AC"/>
-                            <path d="M16 28 Q20 24 24 23 Q30 32 36 23 Q40 24 44 28 L46 65 L14 65 Z" fill="#00C9AC"/>
-                            <path d="M14 65 L20 90 L28 90 L30 75 L32 90 L40 90 L46 65 Z" fill="#00C9AC"/>
-                        </svg>
-                        <div class="fv-pose-check">✓</div>
-                        <div class="fv-pose-label"><?php esc_html_e( 'Przodem', 'fitview' ); ?></div>
+                    <div class="fv-pose-tip">
+                        <div class="fv-pose-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <circle cx="12" cy="5" r="2.4" fill="currentColor"/>
+                                <path d="M12 8.5c-1.6 0-2.8 1-3.1 2.5l-1 5h1.8l.6 6h3.4l.6-6h1.8l-1-5C14.8 9.5 13.6 8.5 12 8.5z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <div class="fv-pose-title"><?php esc_html_e( 'Cała sylwetka', 'fitview' ); ?></div>
+                        <div class="fv-pose-desc"><?php esc_html_e( 'Od stóp do głów', 'fitview' ); ?></div>
                     </div>
 
-                    <!-- Karta 2: Pod kątem (zła poza, czerwona) -->
-                    <div class="fv-pose-tip fv-pose-bad">
-                        <svg viewBox="0 0 60 90" fill="none" aria-hidden="true" focusable="false">
-                            <g transform="rotate(18 30 50)">
-                                <ellipse cx="30" cy="14" rx="10" ry="11" fill="#E8A8A8"/>
-                                <path d="M16 28 Q20 24 24 23 Q30 32 36 23 Q40 24 44 28 L46 65 L14 65 Z" fill="#E8A8A8"/>
-                                <path d="M14 65 L20 90 L28 90 L30 75 L32 90 L40 90 L46 65 Z" fill="#E8A8A8"/>
-                            </g>
-                        </svg>
-                        <div class="fv-pose-check">✗</div>
-                        <div class="fv-pose-label"><?php esc_html_e( 'Pod kątem', 'fitview' ); ?></div>
+                    <div class="fv-pose-tip">
+                        <div class="fv-pose-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <circle cx="12" cy="7" r="3.2" fill="currentColor"/>
+                                <path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6v1H5z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <div class="fv-pose-title"><?php esc_html_e( 'Przodem', 'fitview' ); ?></div>
+                        <div class="fv-pose-desc"><?php esc_html_e( 'Twarz prosto w obiektywie', 'fitview' ); ?></div>
                     </div>
 
-                    <!-- Karta 3: Cała sylwetka (dobra poza, zielona) -->
-                    <div class="fv-pose-tip fv-pose-good">
-                        <svg viewBox="0 0 60 90" fill="none" aria-hidden="true" focusable="false">
-                            <rect x="1" y="1" width="58" height="88" rx="3" stroke="#00C9AC" stroke-width="1.5" stroke-dasharray="4 2"/>
-                            <g transform="translate(1.5 2) scale(0.95)">
-                                <ellipse cx="30" cy="14" rx="10" ry="11" fill="#00C9AC"/>
-                                <path d="M16 28 Q20 24 24 23 Q30 32 36 23 Q40 24 44 28 L46 65 L14 65 Z" fill="#00C9AC"/>
-                                <path d="M14 65 L20 90 L28 90 L30 75 L32 90 L40 90 L46 65 Z" fill="#00C9AC"/>
-                            </g>
-                        </svg>
-                        <div class="fv-pose-check">✓</div>
-                        <div class="fv-pose-label"><?php esc_html_e( 'Cała sylwetka', 'fitview' ); ?></div>
+                    <div class="fv-pose-tip">
+                        <div class="fv-pose-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <rect x="3" y="4" width="18" height="16" rx="2.5" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M3 16l5-4 4 3 3-2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="fv-pose-title"><?php esc_html_e( 'Jednolite tło', 'fitview' ); ?></div>
+                        <div class="fv-pose-desc"><?php esc_html_e( 'Bez zbędnych elementów', 'fitview' ); ?></div>
                     </div>
 
                 </div>
@@ -186,9 +180,19 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div id="fv-pbar" class="fv-pbar" style="width:0%"></div>
             </div>
             <div id="fv-carousel" style="display:none"></div>
-            <div class="fv-shop-msg" id="fv-shop-msg" style="display:none">
-                <i class="ti ti-info-circle" aria-hidden="true"></i>
-                <span class="fv-shop-msg-text" id="fv-shop-msg-text"></span>
+            <div class="fv-info-bar" id="fv-info-bar" style="display:none">
+                <div class="fv-info-tile" id="fv-info-tile-1" style="display:none">
+                    <i class="ti ti-tag" aria-hidden="true"></i>
+                    <span class="fv-info-text" id="fv-info-text-1"></span>
+                </div>
+                <div class="fv-info-tile" id="fv-info-tile-2" style="display:none">
+                    <i class="ti ti-users" aria-hidden="true"></i>
+                    <span class="fv-info-text" id="fv-info-text-2"></span>
+                </div>
+                <div class="fv-info-tile" id="fv-info-tile-3" style="display:none">
+                    <i class="ti ti-truck" aria-hidden="true"></i>
+                    <span class="fv-info-text" id="fv-info-text-3"></span>
+                </div>
             </div>
         </div>
 
