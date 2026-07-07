@@ -159,6 +159,9 @@ class Plugin {
         if ( $this->is_limit_reached() ) {
             return;
         }
+        if ( ! \get_option( 'fitview_show_strip', true ) ) {
+            return;
+        }
         ?>
         <div
             class="fv-strip"
