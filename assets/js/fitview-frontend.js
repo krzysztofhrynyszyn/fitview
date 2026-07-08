@@ -556,7 +556,7 @@ const FitView = (() => {
 
     function _startShopMessages() {
         if (!_data || !_data.shopMessages) return;
-        const msgs = Object.values(_data.shopMessages).filter(Boolean);
+        const msgs = _data.shopMessages.filter((m) => m && m.text);
         if (!msgs.length) return;
 
         const bar  = el('fv-info-bar');
@@ -565,12 +565,11 @@ const FitView = (() => {
         const icon = el('fv-info-icon');
         if (!bar || !tile || !text || !icon) return;
 
-        const ICONS = ['ti-tag', 'ti-users', 'ti-truck'];
         let i = 0;
 
         const show = (idx) => {
-            icon.className = 'ti ' + (ICONS[idx % ICONS.length] || 'ti-sparkles');
-            text.textContent = msgs[idx];
+            icon.className = 'ti ' + (msgs[idx].icon || 'ti-tag');
+            text.textContent = msgs[idx].text;
         };
 
         bar.style.display = 'flex';

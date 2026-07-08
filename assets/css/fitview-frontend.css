@@ -451,6 +451,7 @@
     border-radius: var(--fv-radius);
     font-size: 13px;
     font-weight: 600;
+    font-family: inherit;
     cursor: pointer;
     border: none;
     width: 100%;
@@ -511,19 +512,31 @@
     padding: 8px 0;
 }
 
-@keyframes fv-spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+.fv-spinner {
+    width: 60px;
+    height: 36px;
+    margin: 0 auto 12px;
 }
 
-.fv-spinner {
-    width: 36px;
-    height: 36px;
-    border: 2.5px solid var(--fv-purple-light);
-    border-top-color: var(--fv-purple);
-    border-radius: 50%;
-    animation: fv-spin 1s linear infinite;
-    margin: 0 auto 12px;
+.fv-spinner svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.fv-spinner-hanger {
+    stroke-dasharray: 150;
+    stroke-dashoffset: 150;
+    opacity: 0;
+    animation: fv-draw-hanger 2.2s ease-in-out infinite;
+}
+
+@keyframes fv-draw-hanger {
+    0%   { stroke-dashoffset: 150; opacity: 0; }
+    12%  { opacity: 1; }
+    62%  { stroke-dashoffset: 0; opacity: 1; }
+    82%  { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0; }
 }
 
 .fv-status-main {
@@ -569,11 +582,11 @@
     flex: 1;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     background: var(--fv-purple-soft);
     border: 1px solid var(--fv-purple-light);
     border-radius: var(--fv-radius);
-    padding: 7px 8px;
+    padding: 10px 12px;
     min-width: 0;
     transition: opacity 0.2s ease;
 }
@@ -584,17 +597,19 @@
 
 .fv-info-tile i {
     color: var(--fv-purple);
-    font-size: 13px;
+    font-size: 18px;
     flex-shrink: 0;
 }
 
 .fv-info-text {
-    font-size: 10px;
+    font-size: 13px;
+    font-weight: 500;
     color: var(--fv-indigo-mid);
-    line-height: 1.3;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .fv-shop-msg {

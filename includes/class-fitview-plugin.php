@@ -143,11 +143,25 @@ class Plugin {
                 'nonce'        => \wp_create_nonce( 'wp_rest' ),
                 'productId'    => \get_the_ID(),
                 'productImage' => \esc_url_raw( $product_image_url ),
-                'shopMessages'  => \array_values( \array_filter( [
-                    \get_option( 'fitview_msg_1', '' ),
-                    \get_option( 'fitview_msg_2', '' ),
-                    \get_option( 'fitview_msg_3', '' ),
-                ] ) ),
+                'shopMessages'  => \array_values( \array_filter(
+                    \array_map(
+                        static function ( int $i ) {
+                            $text = \trim( (string) \get_option( 'fitview_msg_' . $i, '' ) );
+                            if ( '' === $text ) {
+                                return null;
+                            }
+                            $defaults = [ 1 => 'ti-tag', 2 => 'ti-users', 3 => 'ti-truck' ];
+                            return [
+                                'text' => $text,
+                                'icon' => (string) \get_option( 'fitview_msg_' . $i . '_icon', $defaults[ $i ] ),
+                            ];
+                        },
+                        [ 1, 2, 3 ]
+                    ),
+                    static function ( $m ) {
+                        return null !== $m;
+                    }
+                ) ),
                 'carouselTitle' => \get_option( 'fitview_carousel_title', 'Może Cię zainteresować' ),
                 'fabPosition'   => \get_option( 'fitview_fab_position', 'right' ),
                 'pluginUrl'     => FITVIEW_PLUGIN_URL,

@@ -144,7 +144,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <polyline points="1 4 1 10 7 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M3.51 15a9 9 0 102.13-9.36L1 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    <?php esc_html_e( 'Zmień', 'fitview' ); ?>
+                    <?php esc_html_e( 'Zmień zdjęcie', 'fitview' ); ?>
                 </button>
             </div>
 
@@ -159,7 +159,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
         <!-- ── State: processing ────────────────────────────────────────── -->
         <div class="fv-pane fv-pane-processing" aria-live="polite">
-            <div class="fv-spinner" aria-hidden="true"></div>
+            <div class="fv-spinner" aria-hidden="true">
+                <svg viewBox="0 0 60 36" width="60" height="36">
+                    <path
+                        class="fv-spinner-hanger"
+                        d="M26 10 Q22 4 30 4 Q38 4 34 10 L30 13 L30 16 L54 29 Q57 31 54 33 L6 33 Q3 31 6 29 Z"
+                        fill="none"
+                        stroke="var(--fv-purple)"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+            </div>
             <div id="fv-status-main" class="fv-status-main"></div>
             <div id="fv-status-sub" class="fv-status-sub"></div>
             <div class="fv-pbar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">

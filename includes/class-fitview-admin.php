@@ -17,6 +17,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Admin {
 
     /**
+     * Available icons for shop messages (Tabler icon slugs => human label).
+     *
+     * @var array<string,string>
+     */
+    private const MSG_ICONS = [
+        'ti-tag'          => 'Tag / kod rabatowy',
+        'ti-truck'        => 'Dostawa',
+        'ti-users'        => 'Klienci / opinie',
+        'ti-shield-check' => 'Gwarancja / bezpieczne zakupy',
+        'ti-gift'         => 'Prezent / promocja',
+        'ti-sparkles'     => 'Nowość / AI',
+    ];
+
+    /**
      * Register all admin hooks.
      */
     public function init(): void {
@@ -108,6 +122,24 @@ class Admin {
             'fitview_settings',
             'fitview_msg_3',
             [ 'sanitize_callback' => 'sanitize_text_field', 'default' => '' ]
+        );
+
+        \register_setting(
+            'fitview_settings',
+            'fitview_msg_1_icon',
+            [ 'sanitize_callback' => [ $this, 'sanitize_msg_icon' ], 'default' => 'ti-tag' ]
+        );
+
+        \register_setting(
+            'fitview_settings',
+            'fitview_msg_2_icon',
+            [ 'sanitize_callback' => [ $this, 'sanitize_msg_icon' ], 'default' => 'ti-users' ]
+        );
+
+        \register_setting(
+            'fitview_settings',
+            'fitview_msg_3_icon',
+            [ 'sanitize_callback' => [ $this, 'sanitize_msg_icon' ], 'default' => 'ti-truck' ]
         );
 
         // ── Category whitelist ───────────────────────────────────────────────
@@ -282,6 +314,7 @@ class Admin {
         echo '<textarea name="fitview_msg_1" id="fitview_msg_1" class="large-text" rows="2"'
             . ' placeholder="' . \esc_attr( 'np. 🚚 Darmowa dostawa od 200 zł — Twój koszyk już spełnia warunek!' ) . '">'
             . $value . '</textarea>';
+        $this->render_msg_icon_select( 1 );
     }
 
     /**
@@ -292,6 +325,7 @@ class Admin {
         echo '<textarea name="fitview_msg_2" id="fitview_msg_2" class="large-text" rows="2"'
             . ' placeholder="' . \esc_attr( 'np. 🏷️ Użyj kodu SUMMER10 i oszczędź 10% na tym produkcie' ) . '">'
             . $value . '</textarea>';
+        $this->render_msg_icon_select( 2 );
     }
 
     /**
@@ -302,6 +336,38 @@ class Admin {
         echo '<textarea name="fitview_msg_3" id="fitview_msg_3" class="large-text" rows="2"'
             . ' placeholder="' . \esc_attr( 'np. ⭐ Ponad 2 400 klientów oceniło dopasowanie na 4,8/5' ) . '">'
             . $value . '</textarea>';
+        $this->render_msg_icon_select( 3 );
+    }
+
+    /**
+     * Render the icon <select> for a given shop message slot (1-3).
+     */
+    private function render_msg_icon_select( int $index ): void {
+        $name    = 'fitview_msg_' . $index . '_icon';
+        $default = [ 1 => 'ti-tag', 2 => 'ti-users', 3 => 'ti-truck' ][ $index ] ?? 'ti-tag';
+        $current = (string) \get_option( $name, $default );
+
+        echo '<p style="margin-top:6px;">';
+        echo '<label for="' . \esc_attr( $name ) . '" style="margin-right:6px;">' . \esc_html__( 'Ikona:', 'fitview' ) . '</label>';
+        echo '<select name="' . \esc_attr( $name ) . '" id="' . \esc_attr( $name ) . '">';
+        foreach ( self::MSG_ICONS as $key => $label ) {
+            printf(
+                '<option value="%s"%s>%s</option>',
+                \esc_attr( $key ),
+                \selected( $current, $key, false ),
+                \esc_html( $label )
+            );
+        }
+        echo '</select>';
+        echo '</p>';
+    }
+
+    /**
+     * Sanitize a shop message icon slug against the allowed whitelist.
+     */
+    public function sanitize_msg_icon( $value ): string {
+        $value = (string) $value;
+        return \array_key_exists( $value, self::MSG_ICONS ) ? $value : 'ti-tag';
     }
 
     /**
